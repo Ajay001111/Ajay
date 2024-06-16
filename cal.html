@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calendar</title>
+<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+</style>
+</head>
+<body>
+
+<h2>Calendar</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Sun</th>
+      <th>Mon</th>
+      <th>Tue</th>
+      <th>Wed</th>
+      <th>Thu</th>
+      <th>Fri</th>
+      <th>Sat</th>
+    </tr>
+  </thead>
+  <tbody id="calendar-body">
+    <!-- Calendar days will be inserted here -->
+  </tbody>
+</table>
+
+<script>
+  function createCalendar(year, month) {
+    const calendarBody = document.getElementById("calendar-body");
+    calendarBody.innerHTML = ""; // Clear existing calendar
+
+    const date = new Date(year, month - 1, 1);
+    const lastDay = new Date(year, month, 0).getDate();
+
+    let dayIndex = 0;
+    let row = document.createElement("tr");
+
+    // Fill blank cells for days before the first day of the month
+    for (let i = 0; i < date.getDay(); i++) {
+      const cell = document.createElement("td");
+      row.appendChild(cell);
+      dayIndex++;
+    }
+
+    for (let i = 1; i <= lastDay; i++) {
+      const cell = document.createElement("td");
+      cell.textContent = i;
+      row.appendChild(cell);
+      dayIndex++;
+
+      if (dayIndex % 7 === 0) {
+        calendarBody.appendChild(row);
+        row = document.createElement("tr");
+      }
+    }
+
+    // Fill remaining blank cells
+    if (dayIndex % 7 !== 0) {
+      const remainingCells = 7 - (dayIndex % 7);
+      for (let i = 0; i < remainingCells; i++) {
+        const cell = document.createElement("td");
+        row.appendChild(cell);
+      }
+    }
+
+    calendarBody.appendChild(row);
+  }
+
+  // Usage example
+  createCalendar(2024, 6); // June 2024
+</script>
+
+</body>
+</html>
